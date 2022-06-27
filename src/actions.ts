@@ -1,4 +1,5 @@
 /** @format */
 
-export const PASS_INCREASED = "passed increased";
-export const FAILED_INCREASED = "failed increased";
+export const TODO_STATUS_CHANGE = "todo status change";
+export const TODO_ADDED = "add todo";
+export const TODO_DELETE = "delete todo";

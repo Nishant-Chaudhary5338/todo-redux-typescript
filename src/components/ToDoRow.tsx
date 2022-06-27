@@ -1,27 +1,35 @@
 /** @format */
 
-import { FC, memo } from "react";
-import Checkbox from "./Checkbox";
+import { FC, memo, useCallback } from "react";
 import { AiFillDelete } from "react-icons/ai";
+import cn from "classnames";
+import { Todo } from "../models/Todo";
 type ToDoRowProps = {
-  children: string | number;
-  done: boolean;
-  onDelete: (children: string | number, done: () => void) => void;
-  onStatusChange: (children: any) => void;
+  todo: Todo;
+  onStatusChange: (id: number, done: boolean) => void;
 };
 
-const ToDoRow: FC<ToDoRowProps> = ({ done, onStatusChange, children }) => {
-  const onCheckBoxChange = (event: any) => {
-    onStatusChange(children);
-  };
+const ToDoRow: FC<ToDoRowProps> = ({ onStatusChange, todo }) => {
+  const { id, title, done } = todo;
+  const handleChange = useCallback(() => {
+    onStatusChange(id, !done);
+  }, [id, done]);
 
-  const onDelete = () => {
-    onDelete();
-  };
   return (
     <div className="flex items-center space-x-4">
-      <Checkbox onChange={onCheckBoxChange} checked={done}></Checkbox>
-      <span className="text-sm font-medium text-gray-700 ">{children}</span>
+      <input
+        className="w-4 h-4 text-yellow-600 border-gray-300 rounded focus:ring-yellow-500"
+        type="checkbox"
+        onChange={handleChange}
+        checked={done}
+      ></input>
+      <p
+        className={cn("text-sm font-medium text-gray-700", {
+          "line-through": done,
+        })}
+      >
+        {title}
+      </p>
     </div>
   );
 };

@@ -1,30 +1,48 @@
 /** @format */
 
 import { createStore, Reducer } from "redux";
-import { FAILED_INCREASED, PASS_INCREASED } from "./actions";
+import { TODO_ADDED, TODO_STATUS_CHANGE } from "./Actions";
+import { Todo } from "./models/Todo";
 
-type state = {
-  passed: number;
-  failed: number;
+export type State = {
+  todos: Todo[];
 };
 
-const initialState = { passed: 0, failed: 0 };
-
-const reducer: Reducer<state> = (
-  currentState = initialState,
-  dispatchedAction
-) => {
-  console.log("state", currentState, "action", dispatchedAction);
-  switch (dispatchedAction.type) {
-    case PASS_INCREASED: {
-      return { ...currentState, passed: currentState.passed + 1 };
+const initialState: State = {
+  todos: [
+    {
+      id: 1,
+      title: "bring milk",
+      done: false,
+    },
+    {
+      id: 2,
+      title: "bring tea",
+      done: true,
+    },
+  ],
+};
+let nextId = 3;
+const reducer: Reducer<State> = (state = initialState, action) => {
+  switch (action.type) {
+    case TODO_STATUS_CHANGE: {
+      const { id, done } = action.payload;
+      const newTodos = state.todos.map((t) => {
+        if (t.id === id) {
+          return { ...t, done };
+        }
+        return t;
+      });
+      return { ...state, todos: newTodos };
     }
-    case FAILED_INCREASED: {
-      return { ...currentState, failed: currentState.failed + 1 };
+    case TODO_ADDED: {
+      const todoText = action.payload;
+      const todo: Todo = { id: nextId, title: todoText, done: false };
+      nextId++;
+      return { ...state, todos: [...state.todos, todo] };
     }
-    default: {
-      return currentState;
-    }
+    default:
+      return state;
   }
 };
 

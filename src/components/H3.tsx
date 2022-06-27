@@ -1,9 +1,7 @@
 /** @format */
 
-import { FC, memo } from "react";
-type H3Props = {
-  children: string;
-};
+import { FC, HTMLAttributes, memo } from "react";
+type H3Props = {} & HTMLAttributes<HTMLHeadElement>;
 
 const H3: FC<H3Props> = ({ children }) => {
   return (
