@@ -3,16 +3,17 @@
 import { ChangeEvent, FC, memo, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { todoActionCreator, TODO_ADDED } from "../actions/Todo";
+import { UserActionCreator } from "../actions/User";
 import Button from "./Button";
 import Card from "./Card";
 import H1 from "./H1";
 import Input from "./Input";
-type ToDoFormProps = {
+type UserFormProps = {
   onClose: () => void;
-  onSubmit: (todotext: string) => void;
+  onSubmit: (name: string) => void;
 };
 
-const ToDoForm: FC<ToDoFormProps> = ({ onClose, onSubmit }) => {
+const UserForm: FC<UserFormProps> = ({ onClose, onSubmit }) => {
   const [inputValue, setInputValue] = useState("");
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -53,8 +54,8 @@ const ToDoForm: FC<ToDoFormProps> = ({ onClose, onSubmit }) => {
   );
 };
 
-ToDoForm.defaultProps = {};
+UserForm.defaultProps = {};
 
-export default connect(undefined, { onSubmit: todoActionCreator })(
-  memo(ToDoForm)
+export default connect(undefined, { onSubmit: UserActionCreator })(
+  memo(UserForm)
 );

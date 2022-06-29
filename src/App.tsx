@@ -1,8 +1,10 @@
 /** @format */
 
 import { useState } from "react";
+import { Route, Routes } from "react-router-dom";
 
-import TodoPage from "./components/TodoPage";
+import TodoPage from "./pages/TodoPage";
+import UsersPage from "./pages/UsersPage";
 import ReduxExample from "./redux Example/ReduxExample";
 
 function App() {
@@ -10,7 +12,10 @@ function App() {
 
   return (
     <div>
-      <TodoPage></TodoPage>
+      <Routes>
+        <Route index element={<TodoPage></TodoPage>}></Route>
+        <Route path="/users" element={<UsersPage></UsersPage>}></Route>
+      </Routes>
     </div>
   );
 }

@@ -1,24 +1,21 @@
 /** @format */
 
 import { FC, memo, useState } from "react";
-import { useSelector } from "react-redux";
-import { Todo } from "../models/Todo";
-import { completeTodoSelector, incompleteTodoSelector } from "../Selectors";
-import Button from "./Button";
-import Container from "./Container";
-import H1 from "./H1";
-import H3 from "./H3";
-import NavBar from "./NavBar";
-import ToDoForm from "./ToDoForm";
-import TodoList, { CompleteTodoList, IncompleteTodoList } from "./TodoList";
+import Button from "../components/Button";
+import Container from "../components/Container";
+import H1 from "../components/H1";
+import H3 from "../components/H3";
+import NavBar from "../components/NavBar";
+import ToDoForm from "../components/ToDoForm";
+import { IncompleteTodoList, CompleteTodoList } from "../components/TodoList";
 
 type TodoPageProps = {};
 
 const TodoPage: FC<TodoPageProps> = (props) => {
-  const [todoform, setTodoForm] = useState(false);
+  const [form, setForm] = useState(false);
 
-  const showForm = () => setTodoForm(true);
-  const hideForm = () => setTodoForm(false);
+  const showForm = () => setForm(true);
+  const hideForm = () => setForm(false);
 
   return (
     <>
@@ -30,12 +27,12 @@ const TodoPage: FC<TodoPageProps> = (props) => {
             <H3>Things to do</H3>
             <IncompleteTodoList></IncompleteTodoList>
 
-            {!todoform && (
+            {!form && (
               <Button onClick={showForm} theme="highlight">
                 Add a todo
               </Button>
             )}
-            {todoform && <ToDoForm onClose={hideForm}></ToDoForm>}
+            {form && <ToDoForm onClose={hideForm}></ToDoForm>}
             <H3>Things done</H3>
             <CompleteTodoList></CompleteTodoList>
           </div>

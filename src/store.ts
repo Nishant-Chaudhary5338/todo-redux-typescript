@@ -1,50 +1,32 @@
 /** @format */
 
+import { useReducer } from "react";
 import { createStore, Reducer } from "redux";
-import { TODO_ADDED, TODO_STATUS_CHANGE } from "./Actions";
+import { TODO_ADDED, TODO_STATUS_CHANGE } from "./actions/Todo";
 import { Todo } from "./models/Todo";
+import { initialTodoState, todoReducer, TodoState } from "./states/Todo";
+import { initialUserState, userReducer, UserState } from "./states/User";
 
 export type State = {
-  todos: Todo[];
+  todos: TodoState;
+  users: UserState;
 };
 
 const initialState: State = {
-  todos: [
-    {
-      id: 1,
-      title: "bring milk",
-      done: false,
-    },
-    {
-      id: 2,
-      title: "bring tea",
-      done: true,
-    },
-  ],
-};
-let nextId = 3;
-const reducer: Reducer<State> = (state = initialState, action) => {
-  switch (action.type) {
-    case TODO_STATUS_CHANGE: {
-      const { id, done } = action.payload;
-      const newTodos = state.todos.map((t) => {
-        if (t.id === id) {
-          return { ...t, done };
-        }
-        return t;
-      });
-      return { ...state, todos: newTodos };
-    }
-    case TODO_ADDED: {
-      const todoText = action.payload;
-      const todo: Todo = { id: nextId, title: todoText, done: false };
-      nextId++;
-      return { ...state, todos: [...state.todos, todo] };
-    }
-    default:
-      return state;
-  }
+  todos: initialTodoState,
+  users: initialUserState,
 };
 
-const store = createStore(reducer);
+const reducer: Reducer<State> = (state = initialState, action) => {
+  return {
+    todos: todoReducer(state.todos, action),
+    users: userReducer(state.users, action),
+  };
+};
+
+const store = createStore(
+  reducer,
+  (window as any).__REDUX_DEVTOOLS_EXTENSION__ &&
+    (window as any).__REDUX_DEVTOOLS_EXTENSION__()
+);
 export default store;
